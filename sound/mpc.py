@@ -1,6 +1,11 @@
 from mpd import MPDClient
 import time
 import ConfigParser
+import shutil
+import os
+
+__mpd_music_folder__ = r'/var/lib/mpd/music'
+__local_lib_folder__ = r'../ressources/music/'
 
 class pympc:
     """
@@ -20,11 +25,22 @@ class pympc:
         self.client.repeat(1)
         self.client.single(1)
         self.client.consume(1)
+        self.__update__music__lib()
         self.load_config(playlist_file)
+
 
     def __del__(self):
         self.client.close()
         self.client.disconnect()
+
+    def __update__music__lib(self):
+        src_files = os.listdir(__local_lib_folder__)
+        for file_name in src_files:
+            full_file_name = os.path.join(__local_lib_folder__, file_name)
+            if (os.path.isfile(full_file_name)):
+                shutil.copy(full_file_name, __mpd_music_folder__)
+        time.sleep(10)
+        self.client.update()
 
     def load_config(self, playlist_file):
         config = ConfigParser.RawConfigParser()
@@ -51,9 +67,11 @@ class pympc:
 if __name__ =='__main__':
     player = pympc('/root/PycharmProjects/alarmclock/ressources/playlist/playlist.ini')
 
-    print player.get_playlist()
-    print player.is_playing()
-    player.play('alarm')
-    print player.is_playing()
-    time.sleep(10)
-    player.stop()
+    tunes =  player.get_playlist()
+
+    for tune in tunes:
+        print tune
+        player.play(tune)
+        time.sleep(10)
+        player.stop()
+
