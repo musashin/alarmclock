@@ -27,7 +27,6 @@ class pympc:
         config.read(playlist_file)
 
         for channel in config.sections():
-            print channel
             uri = config.get(channel, 'uri')
             self.playlist.append({'name': channel, 'uri': uri})
 
@@ -42,7 +41,7 @@ class pympc:
         self.client.clear()
 
     def is_playing(self):
-        pass
+        return self.client.status()['state'] == 'play'
 
     def get_playlist(self):
         return [entry['name'] for entry in self.playlist]
@@ -51,7 +50,8 @@ if __name__ =='__main__':
     player = pympc('/root/PycharmProjects/alarmclock/ressources/playlist/playlist.ini')
 
     print player.get_playlist()
-
-    player.play('radio-canada')
+    print player.is_playing()
+    player.play('alarm')
+    print player.is_playing()
     time.sleep(10)
     player.stop()
