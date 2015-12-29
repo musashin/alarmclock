@@ -17,6 +17,10 @@ class pympc:
         self.client.timeout = 10                # network timeout in seconds (floats allowed), default: None
         self.client.idletimeout = None          # timeout for fetching the result of the idle command is handled seperately, default: None
         self.client.connect("localhost", 6600)  # connect to localhost:6600
+        self.client.clear()
+        self.client.repeat(1)
+        self.client.single(1)
+        self.client.consume(1)
 
     def __del__(self):
         self.client.close()
@@ -31,7 +35,7 @@ class pympc:
             self.playlist.append({'name': channel, 'uri': uri})
 
     def play(self, name):
-
+        self.client.clear()
         uri = [entry['uri'] for entry in self.playlist if entry['name'] == name][0]
         self.client.add(uri)
         self.client.play()
