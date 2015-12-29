@@ -12,7 +12,6 @@ class pympc:
     """
     def __init__(self, playlist_file):
         self.playlist = list()
-        self.load_config(playlist_file)
         self.client = MPDClient()               # create client object
         self.client.timeout = 10                # network timeout in seconds (floats allowed), default: None
         self.client.idletimeout = None          # timeout for fetching the result of the idle command is handled seperately, default: None
@@ -21,6 +20,7 @@ class pympc:
         self.client.repeat(1)
         self.client.single(1)
         self.client.consume(1)
+        self.load_config(playlist_file)
 
     def __del__(self):
         self.client.close()
@@ -32,17 +32,15 @@ class pympc:
 
         for channel in config.sections():
             uri = config.get(channel, 'uri')
-            self.playlist.append({'name': channel, 'uri': uri})
+            id = self.client.addid(uri)
+            self.playlist.append({'name': channel, 'uri': uri, 'id':id})
 
     def play(self, name):
-        self.client.clear()
-        uri = [entry['uri'] for entry in self.playlist if entry['name'] == name][0]
-        self.client.add(uri)
-        self.client.play()
+        id = [entry['id'] for entry in self.playlist if entry['name'] == name][0]
+        self.client.playid(id)
 
     def stop(self):
         self.client.stop()
-        self.client.clear()
 
     def is_playing(self):
         return self.client.status()['state'] == 'play'
