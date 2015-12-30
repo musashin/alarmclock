@@ -3,9 +3,7 @@ import time
 import ConfigParser
 import shutil
 import os
-
-__mpd_music_folder__ = r'/var/lib/mpd/music'
-__local_lib_folder__ = r'../ressources/music/'
+import config
 
 class pympc:
     """
@@ -28,17 +26,16 @@ class pympc:
         self.__update__music__lib()
         self.load_config(playlist_file)
 
-
     def __del__(self):
         self.client.close()
         self.client.disconnect()
 
     def __update__music__lib(self):
-        src_files = os.listdir(__local_lib_folder__)
+        src_files = os.listdir(config.local_lib_folder)
         for file_name in src_files:
-            full_file_name = os.path.join(__local_lib_folder__, file_name)
-            if (os.path.isfile(full_file_name)):
-                shutil.copy(full_file_name, __mpd_music_folder__)
+            full_file_name = os.path.join(config.local_lib_folder, file_name)
+            if os.path.isfile(full_file_name):
+                shutil.copy(full_file_name, config.mpd_music_folder)
         time.sleep(10)
         self.client.update()
 
@@ -64,13 +61,14 @@ class pympc:
     def get_playlist(self):
         return [entry['name'] for entry in self.playlist]
 
-if __name__ =='__main__':
+def test():
+    print '\tTesting Sounds'
     player = pympc('/root/PycharmProjects/alarmclock/ressources/playlist/playlist.ini')
 
     tunes =  player.get_playlist()
 
     for tune in tunes:
-        print tune
+        print '\t\t-'+tune
         player.play(tune)
         time.sleep(10)
         player.stop()
