@@ -22,7 +22,7 @@ class pympc:
         self.client.clear()
         self.client.repeat(1)
         self.client.single(1)
-        self.client.consume(1)
+        self.client.consume(0)
         self.__update__music__lib()
         self.load_config(playlist_file)
 
@@ -31,9 +31,9 @@ class pympc:
         self.client.disconnect()
 
     def __update__music__lib(self):
-        src_files = os.listdir(config.local_lib_folder)
+        src_files = os.listdir(config.local_music_folder)
         for file_name in src_files:
-            full_file_name = os.path.join(config.local_lib_folder, file_name)
+            full_file_name = os.path.join(config.local_music_folder, file_name)
             if os.path.isfile(full_file_name):
                 shutil.copy(full_file_name, config.mpd_music_folder)
         time.sleep(10)
@@ -61,15 +61,4 @@ class pympc:
     def get_playlist(self):
         return [entry['name'] for entry in self.playlist]
 
-def test():
-    print '\tTesting Sounds'
-    player = pympc('/root/PycharmProjects/alarmclock/ressources/playlist/playlist.ini')
-
-    tunes =  player.get_playlist()
-
-    for tune in tunes:
-        print '\t\t-'+tune
-        player.play(tune)
-        time.sleep(10)
-        player.stop()
 

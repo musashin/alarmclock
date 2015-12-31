@@ -14,7 +14,6 @@ def fail_if_exception(func):
                 ret = func(*args, **kwargs)
             except Exception as e:
                 args[0].failed = True
-                print 'failed'
 
         return ret
     return inner
@@ -31,7 +30,6 @@ def return_false_if_exception(func):
             try:
                 func(*args, **kwargs)
             except Exception as e:
-                print 'return false'
                 return False
             else:
                 return True
