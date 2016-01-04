@@ -11,7 +11,6 @@ def execute_system_test():
     """
     logger = log.get_logger('test', clockconfig.syslog_facility)
     logger.info('Executing System Test')
-    logger.error('test')
 
     suite = unittest.TestSuite()
     testmodules = [

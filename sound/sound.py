@@ -4,15 +4,15 @@ import ConfigParser
 import shutil
 import os
 import clockconfig
+from utils.decorators import *
 
 class pympc:
     """
     A simple python client to MPC will all I need
     This is based on python-mpd2
     for help see http://pythonhosted.org/python-mpd2/topics/commands.html
-
-    TODO: add expection support!!!
     """
+    @fail_if_exception
     def __init__(self, playlist_file):
         self.playlist = list()
         self.client = MPDClient()               # create client object
@@ -48,16 +48,19 @@ class pympc:
             id = self.client.addid(uri)
             self.playlist.append({'name': channel, 'uri': uri, 'id':id})
 
+    @return_false_if_exception
     def play(self, name):
         id = [entry['id'] for entry in self.playlist if entry['name'] == name][0]
         self.client.playid(id)
 
+    @return_false_if_exception
     def stop(self):
         self.client.stop()
 
     def is_playing(self):
         return self.client.status()['state'] == 'play'
 
+    @fail_if_exception
     def get_playlist(self):
         return [entry['name'] for entry in self.playlist]
 
