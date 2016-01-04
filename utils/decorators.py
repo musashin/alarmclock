@@ -1,4 +1,5 @@
-
+import logging
+import clockconfig
 
 def fail_if_exception(func):
     def inner(*args, **kwargs):
@@ -7,13 +8,13 @@ def fail_if_exception(func):
         if not hasattr(args[0], 'failed'):
             args[0].failed = False
 
-        if args[0].failed:
-            print 'not executing: failed'
-        else:
+        if not args[0].failed:
             try:
                 ret = func(*args, **kwargs)
             except Exception as e:
                 args[0].failed = True
+                logging.getLogger(clockconfig.app_name).exception("{!s} failed".format(func.__name__))
+
 
         return ret
     return inner
@@ -24,9 +25,7 @@ def return_false_if_exception(func):
         if not hasattr(args[0], 'failed'):
             args[0].failed = False
 
-        if args[0].failed:
-            print 'not executing: failed'
-        else:
+        if not args[0].failed:
             try:
                 func(*args, **kwargs)
             except Exception as e:

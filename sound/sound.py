@@ -3,7 +3,7 @@ import time
 import ConfigParser
 import shutil
 import os
-import config
+import clockconfig
 
 class pympc:
     """
@@ -31,11 +31,11 @@ class pympc:
         self.client.disconnect()
 
     def __update__music__lib(self):
-        src_files = os.listdir(config.local_music_folder)
+        src_files = os.listdir(clockconfig.local_music_folder)
         for file_name in src_files:
-            full_file_name = os.path.join(config.local_music_folder, file_name)
+            full_file_name = os.path.join(clockconfig.local_music_folder, file_name)
             if os.path.isfile(full_file_name):
-                shutil.copy(full_file_name, config.mpd_music_folder)
+                shutil.copy(full_file_name, clockconfig.mpd_music_folder)
         time.sleep(10)
         self.client.update()
 

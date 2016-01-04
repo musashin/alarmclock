@@ -2,28 +2,21 @@ import clock.clock as clock
 import sys
 import getopt
 import unittest
-import logging
-import logging.handlers
-import os
-import config
+import clockconfig
+import utils.log as log
 
 def execute_system_test():
     """
     Execute the system test
     """
-    logger = logging.getLogger('clock')
-    logger.setLevel(logging.DEBUG)
-    handler = logging.handlers.RotatingFileHandler(
-              os.path.join(config.log_folder,'clock.log.test'), maxBytes=4096, backupCount=5)
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
+    logger = log.get_logger('test', clockconfig.syslog_facility)
     logger.info('Executing System Test')
+    logger.error('test')
 
     suite = unittest.TestSuite()
     testmodules = [
         'utils.tests',
-        'sound.tests'
+        #'sound.tests'
     ]
     for t in testmodules:
         suite.addTest(unittest.defaultTestLoader.loadTestsFromName(t))

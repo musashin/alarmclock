@@ -12,7 +12,7 @@ class TestPlayLis(unittest.TestCase):
         Create a test object
         :return:
         """
-        self.player = pympc(os.path.join(config.local_playlist_folder,
+        self.player = pympc(os.path.join(clockconfig.local_playlist_folder,
                                          'playlist.ini'))
 
     def tearDown(self):
