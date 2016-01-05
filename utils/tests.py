@@ -46,6 +46,10 @@ class FatalDecoratorTests(unittest.TestCase):
         self.assertTrue(self.testObject.failed)
         self.assertTrue(self.testObject.HasExecuted)
 
+        print '\n'
+        user_input = raw_input("Did you get a prowl notification: (y/n): ")
+        self.assertTrue(user_input.lower() == 'y')
+
         self.testObject.HasExecuted = False
         self.testObject.testNoExcept()
         self.assertFalse(self.testObject.HasExecuted)

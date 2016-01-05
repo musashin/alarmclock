@@ -5,17 +5,16 @@ import unittest
 import clockconfig
 import utils.log as log
 
-def execute_system_test():
+def execute_system_test(logger):
     """
     Execute the system test
     """
-    logger = log.get_logger('test', clockconfig.syslog_facility)
     logger.info('Executing System Test')
 
     suite = unittest.TestSuite()
     testmodules = [
         'utils.tests',
-        #'sound.tests'
+        'sound.tests'
     ]
     for t in testmodules:
         suite.addTest(unittest.defaultTestLoader.loadTestsFromName(t))
@@ -29,6 +28,8 @@ def execute_system_test():
 
 if __name__ =='__main__':
 
+    logger = log.create_logger()
+
     try:
         opts, args = getopt.getopt(sys.argv[1:],"t")
     except getopt.GetoptError:
@@ -36,6 +37,6 @@ if __name__ =='__main__':
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-t':
-            execute_system_test()
+            execute_system_test(logger)
 
     clock.mainloop()

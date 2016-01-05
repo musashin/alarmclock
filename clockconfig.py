@@ -8,3 +8,4 @@ local_playlist_folder = r'./ressources/playlist/'
 log_folder = r'./log'
 syslog_facility = logging.handlers.SysLogHandler.LOG_LOCAL7
 user_config_file = r'user.ini'
+default_cross_fade = 5 #s

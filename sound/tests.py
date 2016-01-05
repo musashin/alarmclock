@@ -28,5 +28,6 @@ class TestPlayLis(unittest.TestCase):
             self.player.play(tune)
             time.sleep(10)
             self.player.stop()
+            print '\n'
             user_input = raw_input("Have your heard \'{!s}\' (y/n): ".format(tune))
             self.assertTrue(user_input.lower() == 'y')

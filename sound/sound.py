@@ -44,13 +44,25 @@ class pympc:
         config.read(playlist_file)
 
         for channel in config.sections():
-            uri = config.get(channel, 'uri')
-            id = self.client.addid(uri)
-            self.playlist.append({'name': channel, 'uri': uri, 'id':id})
+            try:
+                uri = config.get(channel, 'uri')
+
+                try:
+                    crossfade = config.get(channel, 'crossfade')
+                except:
+                    crossfade = clockconfig.default_cross_fade
+
+                id = self.client.addid(uri)
+                self.playlist.append({'name': channel, 'uri': uri, 'id': id, 'crossfade': crossfade})
+            except Exception as e:
+                logging.getLogger(clockconfig.app_name).warning('Could not add sound {!s} [{!s}]'.format(channel, e))
+
 
     @return_false_if_exception
     def play(self, name):
         id = [entry['id'] for entry in self.playlist if entry['name'] == name][0]
+        crossfade = [entry['crossfade'] for entry in self.playlist if entry['name'] == name][0]
+        #self.client.crossfade(crossfade)
         self.client.playid(id)
 
     @return_false_if_exception
