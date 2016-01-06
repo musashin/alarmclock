@@ -13,7 +13,7 @@ def execute_system_test(logger):
 
     suite = unittest.TestSuite()
     testmodules = [
-        #'utils.tests',
+        'utils.tests',
         'sound.tests'
     ]
     for t in testmodules:

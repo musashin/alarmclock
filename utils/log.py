@@ -12,7 +12,7 @@ import logging.handlers
 import prowler
 import clockconfig
 import ConfigParser
-
+import sys
 
 def create_logger():
     """
@@ -24,6 +24,10 @@ def create_logger():
     syslog = logging.handlers.SysLogHandler(address='/dev/log', facility=clockconfig.syslog_facility)
     syslog.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
     logger.addHandler(syslog)
+
+    if clockconfig.development_environ:
+        console = logging.StreamHandler(sys.stdout)
+        logger.addHandler(console)
 
     __attach_prowl_handler(logger)
 
