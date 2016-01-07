@@ -8,6 +8,7 @@ sudo apt-get install mpc,mpd
 sudo gedit /etc/mpd.conf
 python-mpd2
 prowler
+flask
 
 local7.* /var/log/clock
 

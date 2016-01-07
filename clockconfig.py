@@ -3,7 +3,7 @@ import logging.handlers
 
 development_environ = True
 
-monitor_period_in_s = 5
+monitor_period_in_s = 30
 
 app_name = 'clock'
 mpd_music_folder = r'/var/lib/mpd/music'

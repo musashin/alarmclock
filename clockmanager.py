@@ -6,6 +6,7 @@ import clockconfig
 import utils.log as log
 import multiprocessing
 from threading import Timer
+from gui import app
 
 def execute_system_test(logger):
     """
@@ -51,7 +52,12 @@ def monitor():
 
     print 'monitor'
 
+    start_monitor_thread()
+
+
+def start_monitor_thread():
     Timer(clockconfig.monitor_period_in_s, monitor).start()
+
 
 if __name__ == '__main__':
 
@@ -62,4 +68,7 @@ if __name__ == '__main__':
     else:
         clock_process = start_clock_process()
 
-        Timer(clockconfig.monitor_period_in_s, monitor).start()
+        p = multiprocessing.Process(target=app.run(debug=True, use_reloader = False), name='gui')
+        p.start()
+
+        start_monitor_thread()
