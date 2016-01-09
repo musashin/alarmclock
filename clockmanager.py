@@ -68,7 +68,7 @@ if __name__ == '__main__':
     else:
         clock_process = start_clock_process()
 
-        p = multiprocessing.Process(target=app.run(debug=True, use_reloader = False), name='gui')
+        p = multiprocessing.Process(target=app.run(debug=True, use_reloader = False, host= '0.0.0.0'), name='gui')
         p.start()
 
         start_monitor_thread()
