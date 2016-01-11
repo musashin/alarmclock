@@ -4,8 +4,9 @@ import logging.handlers
 development_environ = True
 
 monitor_period_in_s = 30
+clock_period_in_s = 2
 
-app_name = 'clock'
+app_name = 'alarmclock'
 mpd_music_folder = r'/var/lib/mpd/music'
 local_music_folder = r'./ressources/music/'
 local_playlist_folder = r'./ressources/playlist/'

@@ -1,9 +1,16 @@
 from threading import Timer
 import hardware.display
 from datetime import datetime
+from sound.sound import *
+import os
+import clockconfig
+from messages import commands
+import logging
 
-__refresh_period_in_s__ = 2
 
+
+player = pympc(os.path.join(clockconfig.local_playlist_folder,
+                                         'playlist.ini'))
 
 def update_alarms():
     """
@@ -15,7 +22,7 @@ def update_alarms():
 
 def update_display(alarms_on):
     """
-    Update the clock display
+    Update the alarmclock display
     If no alarm is active, the momentary
     snooze button will cause the temperature to be displayed
     In any other situations,the current system time will be displayed
@@ -28,21 +35,33 @@ def update_display(alarms_on):
                                      '{0:02d}'.format(current_time.minute)[0],
                                      '{0:02d}'.format(current_time.minute)[1]))
 
+def handle_cmds(cmdQueue):
+    cmd = cmdQueue.get()
 
-def mainloop():
+    while cmd:
+
+        if type(cmd) is commands.SoundCmd:
+            print 'playing'
+            player.play('star-trek')
+
+        else:
+            logging.getLogger(clockconfig.app_name).warning('Unsupported Cmd ({!s} not recognised)'.format(type(cmd)))
+
+        cmd = cmdQueue.get()
+
+
+
+def mainloop(cmdQueue):
     """
-    Main clock loop
+    Main alarmclock loop
     :return:
     """
 
+    handle_cmds(cmdQueue)
+
     update_display(update_alarms())
 
-    Timer(__refresh_period_in_s__, mainloop).start()
+    Timer(clockconfig.clock_period_in_s, mainloop).start()
 
-
-
-if  __name__ =='__main__':
-
-    t = mainloop()
 
 

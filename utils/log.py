@@ -1,10 +1,10 @@
 import logging
 """
-Utility module to provide logging to the clock system components.
+Utility module to provide logging to the alarmclock system components.
 
 All logs are directed to 2 handlers:
     - All severities are directed to syslog daemon
-    - Errors are also directed to prowl
+    - Errors/Warnings are also directed to prowl
 
 """
 import clockconfig
@@ -16,7 +16,7 @@ import sys
 
 def create_logger():
     """
-    Create the clock logger
+    Create the alarmclock logger
     """
     logger = logging.getLogger(clockconfig.app_name,)
     logger.setLevel(logging.DEBUG)

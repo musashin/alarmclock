@@ -1,10 +1,11 @@
-import clock.clock as clock
+import alarmclock.clock as AlarmClock
 import sys
 import getopt
 import unittest
 import clockconfig
 import utils.log as log
 import multiprocessing
+from multiprocessing import Queue
 from threading import Timer
 from gui import app
 
@@ -28,6 +29,7 @@ def execute_system_test(logger):
 
     sys.exit()
 
+
 def is_system_test():
 
     try:
@@ -42,8 +44,9 @@ def is_system_test():
     return False
 
 
-def start_clock_process():
-    p = multiprocessing.Process(target=clock.mainloop(), name='clock')
+def start_clock_process(cmdsFromUI):
+
+    p = multiprocessing.Process(target=AlarmClock.mainloop, name='alarmclock', args=(cmdsFromUI,))
     p.start()
 
     return p
@@ -66,7 +69,9 @@ if __name__ == '__main__':
     if is_system_test():
         execute_system_test(logger)
     else:
-        clock_process = start_clock_process()
+        app.cmdsToClock = Queue()
+
+        clock_process = start_clock_process(app.cmdsToClock)
 
         p = multiprocessing.Process(target=app.run(debug=True, use_reloader = False, host= '0.0.0.0'), name='gui')
         p.start()
