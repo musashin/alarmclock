@@ -35,20 +35,34 @@ def update_display(alarms_on):
                                      '{0:02d}'.format(current_time.minute)[0],
                                      '{0:02d}'.format(current_time.minute)[1]))
 
-def handle_cmds(cmdQueue):
-    cmd = cmdQueue.get()
+
+def handle_commands(cmd_queue):
+    """
+    Handle commands from user interface
+    :param cmd_queue:
+    :return:
+    """
+    cmd = cmd_queue.get()
 
     while cmd:
 
-        if type(cmd) is commands.SoundCmd:
-            print 'playing'
-            player.play('star-trek')
+        execute_user_command(cmd)
 
-        else:
-            logging.getLogger(clockconfig.app_name).warning('Unsupported Cmd ({!s} not recognised)'.format(type(cmd)))
+        cmd = cmd_queue.get()
 
-        cmd = cmdQueue.get()
 
+def execute_user_command(cmd):
+    """
+    Execute an user cmd
+    :param cmd: class describing the command to execute
+    :return:
+    """
+    if type(cmd) is commands.SoundCmd:
+
+        player.play('star-trek')
+
+    else:
+        logging.getLogger(clockconfig.app_name).warning('Unsupported Cmd ({!s} not recognised)'.format(type(cmd)))
 
 
 def mainloop(cmdQueue):
@@ -57,7 +71,7 @@ def mainloop(cmdQueue):
     :return:
     """
 
-    handle_cmds(cmdQueue)
+    handle_commands(cmdQueue)
 
     update_display(update_alarms())
 

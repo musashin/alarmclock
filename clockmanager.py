@@ -9,6 +9,7 @@ from multiprocessing import Queue
 from threading import Timer
 from gui import app
 
+
 def execute_system_test(logger):
     """
     Execute the system test
@@ -51,7 +52,13 @@ def start_clock_process(cmdsFromUI):
 
     return p
 
+
 def monitor():
+    """
+    Monitor System Health and Process State
+    #TODO
+    :return:
+    """
 
     print 'monitor'
 
@@ -59,8 +66,26 @@ def monitor():
 
 
 def start_monitor_thread():
+    """
+    Monitor System Health and Process State
+    #TODO
+    :return:
+    """
     Timer(clockconfig.monitor_period_in_s, monitor).start()
 
+
+def start_user_interface_process():
+    """
+    Start the user interface process
+    """
+    p = multiprocessing.Process(target=app.run(debug=True, use_reloader=False, host='0.0.0.0'), name='gui')
+    p.start()
+
+
+def create_processes_shared_ressources():
+    app.cmdsToClock = Queue()
+
+    return (app.cmdsToClock,)
 
 if __name__ == '__main__':
 
@@ -69,11 +94,10 @@ if __name__ == '__main__':
     if is_system_test():
         execute_system_test(logger)
     else:
-        app.cmdsToClock = Queue()
+        ui_to_clock_cmds, = create_processes_shared_ressources()
 
-        clock_process = start_clock_process(app.cmdsToClock)
+        start_clock_process(ui_to_clock_cmds)
 
-        p = multiprocessing.Process(target=app.run(debug=True, use_reloader = False, host= '0.0.0.0'), name='gui')
-        p.start()
+        start_user_interface_process()
 
         start_monitor_thread()
