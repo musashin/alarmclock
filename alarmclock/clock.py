@@ -1,4 +1,4 @@
-from threading import Timer
+import threading
 import hardware.display
 from datetime import datetime
 from sound.sound import *
@@ -6,11 +6,12 @@ import os
 import clockconfig
 from messages import commands
 import logging
+from multiprocessing import Queue
 
-
+exit_event = threading.Event()
 
 player = pympc(os.path.join(clockconfig.local_playlist_folder,
-                                         'playlist.ini'))
+                            'playlist.ini'))
 
 def update_alarms():
     """
@@ -42,13 +43,19 @@ def handle_commands(cmd_queue):
     :param cmd_queue:
     :return:
     """
-    cmd = cmd_queue.get()
+    try:
+        cmd = cmd_queue.get(False)
+    except:
+        pass
+    else:
+        while cmd:
 
-    while cmd:
+            execute_user_command(cmd)
 
-        execute_user_command(cmd)
-
-        cmd = cmd_queue.get()
+            try:
+                cmd = cmd_queue.get(False)
+            except:
+                cmd = None
 
 
 def execute_user_command(cmd):
@@ -65,17 +72,29 @@ def execute_user_command(cmd):
         logging.getLogger(clockconfig.app_name).warning('Unsupported Cmd ({!s} not recognised)'.format(type(cmd)))
 
 
-def mainloop(cmdQueue):
-    """
-    Main alarmclock loop
-    :return:
-    """
+def mainloop(**kwargs):
 
-    handle_commands(cmdQueue)
+    handle_commands(kwargs['commands_from_user'])
 
     update_display(update_alarms())
 
-    Timer(clockconfig.clock_period_in_s, mainloop).start()
+    kwargs['clock_started_event'].set()
+
+    threading.Timer(clockconfig.clock_period_in_s, mainloop, kwargs=kwargs).start()
+
+
+def process(**kwargs):
+    """
+    Main alarm clock loop
+    :return:
+    """
+
+    exit_event.clear()
+
+    threading.Timer(clockconfig.clock_period_in_s, mainloop, kwargs=kwargs).start()
+
+    exit_event.wait()
+
 
 
 
