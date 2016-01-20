@@ -77,12 +77,9 @@
        refresh_play_state()
     });
 
-    $('#music-play').click(function(){
+    $('#music-play').click( function(){
+        play_track("test")
+        }
+    );
 
-    alert('play')
-    $.post("/play_request",{nothing: false},
-    function(){
-        alert("playing");
-    });
-});
 </script>

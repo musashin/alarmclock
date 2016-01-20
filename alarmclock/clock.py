@@ -37,7 +37,7 @@ def update_display(alarms_on):
                                      '{0:02d}'.format(current_time.minute)[1]))
 
 
-def handle_commands(cmd_queue):
+def handle_commands(cmd_queue, clock_play_state):
     """
     Handle commands from user interface
     :param cmd_queue:
@@ -50,7 +50,7 @@ def handle_commands(cmd_queue):
     else:
         while cmd:
 
-            execute_user_command(cmd)
+            execute_user_command(cmd, clock_play_state)
 
             try:
                 cmd = cmd_queue.get(False)
@@ -58,7 +58,7 @@ def handle_commands(cmd_queue):
                 cmd = None
 
 
-def execute_user_command(cmd):
+def execute_user_command(cmd, clock_play_state):
     """
     Execute an user cmd
     :param cmd: class describing the command to execute
@@ -66,7 +66,9 @@ def execute_user_command(cmd):
     """
     if type(cmd) is commands.SoundCmd:
 
-        player.play('star-trek')
+        if player.play('star-trek'):
+            clock_play_state['status'] = 'playing'
+            clock_play_state['track'] = 'star-trek'
 
     else:
         logging.getLogger(clockconfig.app_name).warning('Unsupported Cmd ({!s} not recognised)'.format(type(cmd)))
@@ -74,7 +76,7 @@ def execute_user_command(cmd):
 
 def mainloop(**kwargs):
 
-    handle_commands(kwargs['commands_from_user'])
+    handle_commands(kwargs['commands_from_user'], kwargs['clock_play_state'])
 
     update_display(update_alarms())
 
@@ -88,6 +90,9 @@ def process(**kwargs):
     Main alarm clock loop
     :return:
     """
+
+    for track in player.get_playlist():
+        kwargs['playlist'].append(track)
 
     exit_event.clear()
 

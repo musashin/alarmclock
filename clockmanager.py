@@ -8,6 +8,7 @@ import multiprocessing
 from multiprocessing import Queue
 from threading import Timer
 from gui import app
+import messages
 
 
 def execute_system_test(logger):
@@ -45,10 +46,16 @@ def is_system_test():
     return False
 
 
-def start_clock_process(commands_from_user, clock_started_event):
+def start_clock_process(commands_from_user,
+                        clock_started_event,
+                        clock_play_state,
+                        playlist):
 
-    p = multiprocessing.Process(target=AlarmClock.process, kwargs={'commands_from_user':commands_from_user,
-                                                                   'clock_started_event':clock_started_event})
+    p = multiprocessing.Process(target=AlarmClock.process,
+                                kwargs={'commands_from_user': commands_from_user,
+                                        'clock_started_event': clock_started_event,
+                                        'clock_play_state': clock_play_state,
+                                        'playlist': playlist})
     p.start()
 
     return p
@@ -88,7 +95,10 @@ def create_processes_shared_ressources():
 
     clock_started = multiprocessing.Event()
 
-    return (app.cmdsToClock, clock_started)
+    app.currentPlayState = multiprocessing.Manager().dict({'status': 'idle', 'track': None})
+    app.playlist = multiprocessing.Manager().list()
+
+    return (app.cmdsToClock, clock_started, app.currentPlayState, app.playlist)
 
 if __name__ == '__main__':
 
@@ -97,16 +107,22 @@ if __name__ == '__main__':
     if is_system_test():
         execute_system_test(logger)
     else:
-        ui_to_clock_cmds, clock_started = create_processes_shared_ressources()
+        ui_to_clock_cmds, clock_started, clock_play_state, playlist = create_processes_shared_ressources()
 
         start_clock_process(commands_from_user=ui_to_clock_cmds,
-                            clock_started_event=clock_started)
+                            clock_started_event=clock_started,
+                            clock_play_state=clock_play_state,
+                            playlist=playlist)
 
         clock_started.wait(10)
 
         if not clock_started.is_set():
             logger.error("Clock did not start")
+        else:
+            logger.info("Clock process started")
 
         start_user_interface_process()
+
+        logger.info("User Interface Started")
 
         start_monitor_thread()

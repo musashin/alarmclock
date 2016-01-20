@@ -13,12 +13,16 @@ def index():
 
 @app.route('/play_state', methods=['GET'])
 def get_play_state():
-    return jsonify(play=False,
-                   track='test')
+    print app.playlist
+    return jsonify(play=app.currentPlayState['status'] == 'playing',
+                   track=app.currentPlayState['track'])
 
 
 @app.route('/play_request', methods=['POST'])
 def request_play():
+
+    print app.currentPlayState
+    print app.playlist
 
     app.cmdsToClock.put(SoundCmd('play', 'toto'))
 
