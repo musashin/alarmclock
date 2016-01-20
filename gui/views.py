@@ -8,7 +8,8 @@ from messages.commands import SoundCmd
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template("main.html")
+    print app.playlist
+    return render_template("main.html", tracks=app.playlist)
 
 
 @app.route('/play_state', methods=['GET'])
@@ -22,7 +23,7 @@ def get_play_state():
 def request_play():
 
     print app.currentPlayState
-    print app.playlist
+    print
 
     app.cmdsToClock.put(SoundCmd('play', 'toto'))
 

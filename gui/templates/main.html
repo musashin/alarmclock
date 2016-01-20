@@ -39,8 +39,9 @@
                                 <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Chaine
                               <span class="caret"></span></button>
                               <ul class="dropdown-menu">
-                                <li><a href="#">Music1</a></li>
-                                <li><a href="#">Music2</a></li>
+                                {% for track in tracks %}
+                                  <li><a href="#">{{track}}</a></li>
+                                {% endfor %}
                               </ul>
                             </div>
                       </button>
