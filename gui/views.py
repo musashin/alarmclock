@@ -21,10 +21,11 @@ def get_play_state():
 
 @app.route('/play_request', methods=['POST'])
 def request_play():
+    """
+    POST request for playing a track
+    :return:
+    """
 
-    print app.currentPlayState
-    print
-
-    app.cmdsToClock.put(SoundCmd('play', 'toto'))
+    app.cmdsToClock.put(SoundCmd('play', track=request.form['track']))
 
     return 'OK'

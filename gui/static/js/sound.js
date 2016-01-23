@@ -28,7 +28,7 @@ Request to play a track
 */
 function play_track(track_name)
 {
-    $.post("/play_request",{nothing: false},
+    $.post("/play_request",{track: track_name},
     function(){
         alert("playing");
     })

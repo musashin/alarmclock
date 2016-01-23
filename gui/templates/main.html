@@ -36,9 +36,9 @@
 
                           </i>
                             <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Chaine
+                                <button id="trackbutton" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">alarm
                               <span class="caret"></span></button>
-                              <ul class="dropdown-menu">
+                              <ul class="dropdown-menu" id="track">
                                 {% for track in tracks %}
                                   <li><a href="#">{{track}}</a></li>
                                 {% endfor %}
@@ -74,13 +74,20 @@
 </html>
 
 <script>
+var currentTrack = 'alarm'
  $( document ).ready( function(){
        refresh_play_state()
     });
 
     $('#music-play').click( function(){
-        play_track("test")
+        play_track(currentTrack)
         }
     );
+
+$("#track li a").click( function() {
+    $("#trackbutton").html($(this).text() + ' <span class="caret"></span>');
+    $("#trackbutton").val($(this).data('value'));
+    currentTrack = $(this).text();
+});
 
 </script>

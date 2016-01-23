@@ -2,6 +2,6 @@
 
 class SoundCmd(object):
 
-    def __init__(self, type, *args):
+    def __init__(self, type, track):
         self.type = type
-        self.args = args
+        self.track = track
