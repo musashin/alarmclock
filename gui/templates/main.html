@@ -84,6 +84,11 @@ var currentTrack = 'alarm'
         }
     );
 
+    $('#music-stop').click( function(){
+        stop_track()
+        }
+    );
+
 $("#track li a").click( function() {
     $("#trackbutton").html($(this).text() + ' <span class="caret"></span>');
     $("#trackbutton").val($(this).data('value'));

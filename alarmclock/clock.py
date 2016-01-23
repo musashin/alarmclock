@@ -66,9 +66,15 @@ def execute_user_command(cmd, clock_play_state):
     """
     if type(cmd) is commands.SoundCmd:
 
-        if player.play(cmd.track):
-            clock_play_state['status'] = 'playing'
-            clock_play_state['track'] = cmd.track
+        if cmd.type == 'play':
+            if player.play(cmd.track):
+                clock_play_state['status'] = 'playing'
+                clock_play_state['track'] = cmd.track
+        if cmd.type == 'stop':
+            if player.stop():
+                clock_play_state['status'] = 'idle'
+                clock_play_state['track'] = None
+
 
     else:
         logging.getLogger(clockconfig.app_name).warning('Unsupported Cmd ({!s} not recognised)'.format(type(cmd)))

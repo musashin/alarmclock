@@ -1,4 +1,5 @@
 
+var refresh_delay_ms = 1000
 /*
 Refresh the current play state:
     - Play/Stop button state
@@ -8,7 +9,6 @@ function refresh_play_state(){
 
     $.get( "/play_state", function( data ) {
 
-        console.log(data.play)
         if(data.play)
         {
             $('#music-play').prop('disabled', true);
@@ -30,6 +30,17 @@ function play_track(track_name)
 {
     $.post("/play_request",{track: track_name},
     function(){
-        alert("playing");
+        setTimeout(function(){ refresh_play_state();}, refresh_delay_ms);
+    })
+}
+
+/*
+Request to stop current track
+*/
+function stop_track()
+{
+    $.post("/stop_request",{},
+    function(){
+        setTimeout(function(){ refresh_play_state();}, refresh_delay_ms);
     })
 }

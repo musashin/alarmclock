@@ -14,7 +14,7 @@ def index():
 
 @app.route('/play_state', methods=['GET'])
 def get_play_state():
-    print app.playlist
+
     return jsonify(play=app.currentPlayState['status'] == 'playing',
                    track=app.currentPlayState['track'])
 
@@ -27,5 +27,16 @@ def request_play():
     """
 
     app.cmdsToClock.put(SoundCmd('play', track=request.form['track']))
+
+    return 'OK'
+
+@app.route('/stop_request', methods=['POST'])
+def request_stop():
+    """
+    POST request to stop playing music
+    :return:
+    """
+
+    app.cmdsToClock.put(SoundCmd('stop', track=None))
 
     return 'OK'
