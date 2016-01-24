@@ -4,20 +4,37 @@
     <title> Radio Reveil </title>
     <link href="/static/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/static/css/slider.css" rel="stylesheet">
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="/static/js/sound.js"></script>
+    <script src="/static/js/bootstrap-slider.js"></script>
     <!link href="/static/img/PiIcon.ico" rel="icon" />
     <!link href="/static/img/PiIcon.png" rel="shortcut icon" />
     <!link rel="apple-touch-icon" href="/static/img/PiIconiOS.png"/>
     <!link rel="stylesheet" href="/static/font-awesome-4.2.0/css/font-awesome.min.css">
+    <style>
+  /* centered columns styles */
+.row-centered {
+    text-align:center;
+}
+.col-centered {
+    display:inline-block;
+    float:none;
+    /* reset the text-align */
+    text-align:left;
+    /* inline-block space fix */
+    margin-right:-4px;
+}
+
+    </style>
 </head>
 <body>
 
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-6" >
+        <div class="row row-centered">
+            <div class="col-sm-6 col-centered" >
                 <div class="well">
                     <p>
                         <i class="glyphicon glyphicon-music">
@@ -44,9 +61,12 @@
                             </ul>
                         </div>
                     </div>
+                    <p>
+                        <input type="text" class="span2" value="4" id="volume-slider" data-slider-min="0" data-slider-max="100" data-slider-step="10" data-slider-value="50">
+                    </p>
                 </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-6 col-centered">
                  <div class="well">
                     <i class="glyphicon glyphicon-tint">
                     </i>
@@ -67,9 +87,18 @@
 </html>
 
 <script>
-var currentTrack = 'alarm'
- $( document ).ready( function(){
-       refresh_play_state()
+    var currentTrack = 'alarm'
+
+    $( document ).ready( function(){
+
+        $('#volume-slider').slider({
+
+          formatter: function(value) {
+            return 'Current value: ' + value;
+          }
+        });
+
+        refresh_play_state()
     });
 
     $('#music-play').click( function(){
@@ -82,10 +111,16 @@ var currentTrack = 'alarm'
         }
     );
 
-$("#track li a").click( function() {
-    $("#trackbutton").html($(this).text() + ' <span class="caret"></span>');
-    $("#trackbutton").val($(this).data('value'));
-    currentTrack = $(this).text();
-});
+    $("#track li a").click( function() {
+        $("#trackbutton").html($(this).text() + ' <span class="caret"></span>');
+        $("#trackbutton").val($(this).data('value'));
+        currentTrack = $(this).text();
+    });
+
+    $('#volume-slider').slider()
+      .on('slideStop', function(ev){
+        alert('test' + $(this).val())
+      });
+
 
 </script>
