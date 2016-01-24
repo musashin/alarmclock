@@ -15,58 +15,51 @@
 </head>
 <body>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 text-center" >
-            <div class="well">
-                <p>
-                    <i class="glyphicon glyphicon-music">
-
-                    </i>
-                </p>
-                <p>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6" >
+                <div class="well">
+                    <p>
+                        <i class="glyphicon glyphicon-music">
+                        </i>
+                    </p>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-primary" id="music-play">
+                        <button type="button" class="btn btn-success" id="music-play">
                             <i class="glyphicon glyphicon-play">
-
                             </i>
                         </button>
-                        <button type="button" class="btn btn-primary" id="music-stop">
-                          <i class="glyphicon glyphicon-stop">
-
-                          </i>
-                            <div class="dropdown">
-                                <button id="trackbutton" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">alarm
-                              <span class="caret"></span></button>
-                              <ul class="dropdown-menu" id="track">
+                        <button type="button" class="btn btn-danger" id="music-stop">
+                            <i class="glyphicon glyphicon-stop">
+                            </i>
+                        </button>
+                        <div class="btn-group">
+                            <button id="trackbutton" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                alarm
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" id="track">
                                 {% for track in tracks %}
-                                  <li><a href="#">{{track}}</a></li>
+                                <li><a href="#">{{track}}</a></li>
                                 {% endfor %}
-                              </ul>
-                            </div>
-                      </button>
-
+                            </ul>
+                        </div>
                     </div>
-                </p>
-
+                </div>
             </div>
-        </div>
-        <div class="col-md-6">
-             <div class="well">
-                <i class="glyphicon glyphicon-tint">
-
-                </i>
+            <div class="col-sm-6">
+                 <div class="well">
+                    <i class="glyphicon glyphicon-tint">
+                    </i>
+                </div>
             </div>
+
         </div>
-    <div class="row">
-        Calendrier Alarme
+        <div class="row">
+            Calendrier Alarme
+        </div>
+
+        </div>
     </div>
-
-</div>
-    </div>
-
-
-
 
 </body>
 

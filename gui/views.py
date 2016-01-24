@@ -15,6 +15,8 @@ def index():
 @app.route('/play_state', methods=['GET'])
 def get_play_state():
 
+    print app.currentPlayState
+
     return jsonify(play=app.currentPlayState['status'] == 'playing',
                    track=app.currentPlayState['track'])
 

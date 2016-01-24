@@ -1,5 +1,5 @@
 
-var refresh_delay_ms = 1000
+var refresh_delay_ms = 2000
 /*
 Refresh the current play state:
     - Play/Stop button state
