@@ -42,3 +42,13 @@ def request_stop():
     app.cmdsToClock.put(SoundCmd('stop', track=None))
 
     return 'OK'
+
+@app.route('/set_volume', methods=['POST'])
+def set_volume():
+    """
+    POST request to set music volume
+    :return:
+    """
+    app.cmdsToClock.put(SoundCmd('volume', track=None, vol=request.form['volume']))
+
+    return 'OK'

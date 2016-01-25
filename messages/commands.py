@@ -2,6 +2,14 @@
 
 class SoundCmd(object):
 
-    def __init__(self, type, track):
+    def __init__(self, type, **kwargs):
         self.type = type
-        self.track = track
+        try:
+            self.track = kwargs['track']
+        except:
+            pass
+
+        try:
+            self.vol = kwargs['vol']
+        except:
+            pass

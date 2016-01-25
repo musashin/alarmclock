@@ -74,6 +74,8 @@ def execute_user_command(cmd, clock_play_state):
             if player.stop():
                 clock_play_state['status'] = 'idle'
                 clock_play_state['track'] = None
+        if cmd.type == 'volume':
+            player.set_volume(cmd.vol)
 
 
     else:

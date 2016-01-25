@@ -44,3 +44,12 @@ function stop_track()
         setTimeout(function(){ refresh_play_state();}, refresh_delay_ms);
     })
 }
+
+/*
+Request to set volume
+*/
+function set_volume(volume_percent)
+{
+    $.post("/set_volume",{volume: volume_percent},
+    {})
+}

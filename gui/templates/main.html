@@ -62,7 +62,7 @@
                         </div>
                     </div>
                     <p>
-                        <input type="text" class="span2" value="4" id="volume-slider" data-slider-min="0" data-slider-max="100" data-slider-step="10" data-slider-value="50">
+                        <input type="text" class="span2" value="4" id="volume-slider" data-slider-min="20" data-slider-max="100" data-slider-step="10" data-slider-value="50">
                     </p>
                 </div>
             </div>
@@ -119,8 +119,6 @@
 
     $('#volume-slider').slider()
       .on('slideStop', function(ev){
-        alert('test' + $(this).val())
+        set_volume( parseInt($(this).val(), 10));
       });
-
-
 </script>

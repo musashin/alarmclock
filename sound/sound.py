@@ -15,6 +15,8 @@ class pympc:
     """
     @fail_if_exception
     def __init__(self, playlist_file):
+
+        self.current_volume = 50
         self.ramp_up_thread = None
         self.playlist = list()
         self.client = MPDClient()               # create client object
@@ -53,7 +55,7 @@ class pympc:
                 uri = config.get(channel, 'uri')
 
                 try:
-                    crossfade = config.get(channel, 'crossfade')
+                    crossfade = int(config.get(channel, 'crossfade'))
                 except:
                     crossfade = clockconfig.default_cross_fade
 
@@ -70,9 +72,16 @@ class pympc:
         self.client.setvol(int(clockconfig.initial_sound_volume))
 
         self.ramp_up_thread = Timer(clockconfig.ramp_up_period, self.ramp_up_volume,
-                                    [crossfade, clockconfig.initial_sound_volume, clockconfig.initial_sound_volume, 100]).start()
+                                    [crossfade, clockconfig.initial_sound_volume, clockconfig.initial_sound_volume, self.current_volume]).start()
 
         self.client.playid(id)
+
+    @return_false_if_exception
+    def set_volume(self, volume_in_percent):
+
+        self.current_volume = volume_in_percent
+
+        self.client.setvol(min(100, int(self.current_volume)))
 
     def ramp_up_volume(self, crossfade_time, initial_volume, current_volume, target_volume):
         """
@@ -92,11 +101,12 @@ class pympc:
             if current_volume < target_volume and current_volume < 100:
 
                 self.ramp_up_thread = Timer(clockconfig.ramp_up_period, self.ramp_up_volume,
-                                      [crossfade_time, initial_volume, current_volume, 100]).start()
+                                      [crossfade_time, initial_volume, current_volume, self.current_volume]).start()
             else:
                 self.ramp_up_thread = None
-        except:
-            self.client.setvol(100)
+        except Exception as e:
+            print e
+            self.client.setvol(self.current_volume)
 
     @return_false_if_exception
     def stop(self):
