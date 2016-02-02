@@ -15,32 +15,29 @@
     <!link rel="apple-touch-icon" href="/static/img/PiIconiOS.png"/>
     <!link rel="stylesheet" href="/static/font-awesome-4.2.0/css/font-awesome.min.css">
     <style>
-  /* centered columns styles */
-.row-centered {
-    text-align:center;
+.col-centered{
+    float: none;
+    margin: 0 auto;
 }
-.col-centered {
-    display:inline-block;
-    float:none;
-    /* reset the text-align */
-    text-align:left;
-    /* inline-block space fix */
-    margin-right:-4px;
-}
-
     </style>
 </head>
 <body>
 
     <div class="container-fluid">
-        <div class="row row-centered">
-            <div class="col-sm-6 col-centered" >
+        <div class="row">
+            <div class="col-md-2" ></div>
+            <div class="col-md-4" >
                 <div class="well">
                     <p>
-                        <i class="glyphicon glyphicon-music">
-                        </i>
+                        <h1>
+                            <i class="glyphicon glyphicon-music">
+                            </i>
+                        </h1>
                     </p>
-                    <div class="btn-group">
+                    <p>
+                        <span class="label label-info">Controles</span>
+                        <div class="btn-group">
+
                         <button type="button" class="btn btn-success" id="music-play">
                             <i class="glyphicon glyphicon-play">
                             </i>
@@ -61,21 +58,53 @@
                             </ul>
                         </div>
                     </div>
+                    </p>
                     <p>
+                        <span class="label label-info">Volume</span>
                         <input type="text" class="span2" value="4" id="volume-slider" data-slider-min="20" data-slider-max="100" data-slider-step="10" data-slider-value="50">
                     </p>
                 </div>
             </div>
-            <div class="col-sm-6 col-centered">
+            <div class="col-md-4">
                  <div class="well">
-                    <i class="glyphicon glyphicon-tint">
+                     <p>
+                         <h1>
+                            <i class="glyphicon glyphicon-tint">
+                            </i>
+                        </h1>
+                     </p>
+                     <p>
+                    <span class="label label-info">Temperature</span>
+                    </p>
+                        <p>
+                    <span class="label label-info">Humidite</span>
+                    </p>
                     </i>
                 </div>
             </div>
+            <div class="col-md-2" ></div>
 
         </div>
         <div class="row">
-            Calendrier Alarme
+            <div class="col-md-2" ></div>
+            <div class="col-md-8" >
+                <div class="well">
+                    <p>
+                    <span class="label label-info">Prochaine Alarme Nicolas</span>
+                    </p>
+                    <p>
+                    <span class="label label-info">Prochain Alarme Nathalie</span>
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-2" ></div>
+        </div>
+         <div class="row">
+            <div class="col-md-1" ></div>
+            <div class="col-md-10" >
+                <h1>Calendar</h1>
+            </div>
+            <div class="col-md-1" ></div>
         </div>
 
         </div>
