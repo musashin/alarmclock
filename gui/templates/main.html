@@ -103,12 +103,13 @@
             <div class="col-md-1" ></div>
             <div class="col-md-10" >
                 <h1>Calendar</h1>
-                <table class="table table-condensed">
+                <div class="table-responsive">
+                <table class="table table-condensed table-striped">
                 <thead>
                       <tr>
-                          <th>Heure</th>
+                          <th style="width: 12%">Heure</th>
                           {% for day in week_days %}
-                          <th>{{day}}</th>
+                          <th style="width: 12%">{{day}}</th>
                           {% endfor %}
                       </tr>
                     </thead>
@@ -130,6 +131,7 @@
                         {% endfor %}
                     </tbody>
                   </table>
+                    </div>
             </div>
             <div class="col-md-1" ></div>
         </div>
