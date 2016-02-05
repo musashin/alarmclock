@@ -8,14 +8,23 @@ from messages.commands import SoundCmd
 @app.route('/')
 @app.route('/index')
 def index():
-    print app.playlist
-    return render_template("main.html", tracks=app.playlist)
+
+    week_days = ('lundi','mardi','mercredi','jeudi', 'vendredi', 'samedi', 'dimanche')
+    schedule = {'lundi':[{'nath': True, 'nico': False}]*24,
+            'mardi':[{'nath': True, 'nico': True}]*24,
+            'mercredi': [{'nath': False, 'nico': True}]*24,
+            'jeudi': [{'nath': True, 'nico': False}]*24,
+            'vendredi': [{'nath': True, 'nico': False}]*24,
+            'samedi': [{'nath': True, 'nico': False}]*24,
+            'dimanche': [{'nath': True, 'nico': False}]*24}
+
+    return render_template("main.html", tracks=app.playlist,
+                                        schedule=schedule,
+                                        week_days=week_days)
 
 
 @app.route('/play_state', methods=['GET'])
 def get_play_state():
-
-    print app.currentPlayState
 
     return jsonify(play=app.currentPlayState['status'] == 'playing',
                    track=app.currentPlayState['track'])
