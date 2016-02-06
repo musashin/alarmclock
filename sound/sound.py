@@ -19,17 +19,21 @@ class pympc:
         self.current_volume = 50
         self.ramp_up_thread = None
         self.playlist = list()
+        self.connect()
+        self.__update__music__lib()
+        self.load_config(playlist_file)
+
+    def connect(self):
         self.client = MPDClient()               # create client object
-        self.client.timeout = None              # network timeout in seconds (floats allowed), default: None
+        self.client.timeout = 5              # network timeout in seconds (floats allowed), default: None
         self.client.idletimeout = None          # timeout for fetching the result of the idle command is handled seperately, default: None
         self.client.connect("localhost", 6600)  # connect to localhost:6600
         self.client.clear()
         self.client.repeat(1)
         self.client.single(1)
         self.client.consume(0)
-        self.__update__music__lib()
-        self.load_config(playlist_file)
         self.client.stop()
+
 
     def __del__(self):
         if self.ramp_up_thread:

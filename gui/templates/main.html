@@ -61,7 +61,7 @@
                     </p>
                     <p>
                         <span class="label label-info">Volume</span>
-                        <input type="text" class="span2" value="4" id="volume-slider" data-slider-min="20" data-slider-max="100" data-slider-step="10" data-slider-value="50">
+                        <input type="text" class="span2" value="4" id="volume-slider" data-slider-min="20" data-slider-max="100" data-slider-step="5" data-slider-value="50">
                     </p>
                 </div>
             </div>
@@ -123,6 +123,10 @@
 
     $( document ).ready( function(){
 
+        //Toggle tooltips
+        $('[data-toggle="tooltip"]').tooltip();
+
+        //Turn-on slider
         $('#volume-slider').slider({
 
           formatter: function(value) {
@@ -130,6 +134,7 @@
           }
         });
 
+        //refresh play state
         refresh_play_state()
     });
 
@@ -153,4 +158,5 @@
       .on('slideStop', function(ev){
         set_volume( parseInt($(this).val(), 10));
       });
+
 </script>

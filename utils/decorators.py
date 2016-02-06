@@ -12,7 +12,7 @@ principle:
 
 import logging
 import clockconfig
-
+from mpd import ConnectionError
 
 def fail_if_exception(func):
     """
@@ -56,6 +56,10 @@ def return_false_if_exception(func):
         if not args[0].failed:
             try:
                 func(*args, **kwargs)
+            except ConnectionError as e:
+                if 'connect' in dir(args[0]):
+                    args[0].connect()
+                    func(*args, **kwargs)
             except Exception as e:
                 logging.getLogger(clockconfig.app_name).exception("{!s} failed".format(func.__name__))
                 return False

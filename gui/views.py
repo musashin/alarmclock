@@ -10,13 +10,13 @@ from messages.commands import SoundCmd
 def index():
 
     week_days = ('lundi','mardi','mercredi','jeudi', 'vendredi', 'samedi', 'dimanche')
-    schedule = {'lundi':[{'nath': True, 'nico': False}]*24,
-            'mardi':[{'nath': True, 'nico': True}]*24,
-            'mercredi': [{'nath': False, 'nico': True}]*24,
-            'jeudi': [{'nath': True, 'nico': False}]*24,
-            'vendredi': [{'nath': True, 'nico': False}]*24,
-            'samedi': [{'nath': True, 'nico': False}]*24,
-            'dimanche': [{'nath': True, 'nico': False}]*24}
+    schedule = {'lundi':[{'nath': {'state': True, 'time': '12:30'}, 'nico': {'state': False, 'time': '9:30'}}]*24,
+            'mardi':[{'nath': {'state': True, 'time': '12:30'}, 'nico': {'state': True, 'time': '12:30'}}]*24,
+            'mercredi': [{'nath': {'state': False, 'time': '9:30'}, 'nico': {'state': True, 'time': '12:30'}}]*24,
+            'jeudi': [{'nath': {'state': True, 'time': '12:30'}, 'nico': {'state': False, 'time': '9:30'}}]*24,
+            'vendredi': [{'nath': {'state': True, 'time': '12:30'}, 'nico': {'state': False, 'time': '9:30'}}]*24,
+            'samedi': [{'nath': {'state': True, 'time': '12:30'}, 'nico': {'state': False, 'time': '9:30'}}]*24,
+            'dimanche': [{'nath': {'state': True, 'time': '12:30'}, 'nico': {'state': False, 'time': '9:30'}}]*24}
 
     return render_template("main.html", tracks=app.playlist,
                                         schedule=schedule,

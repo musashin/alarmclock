@@ -10,14 +10,18 @@
     <tbody>
     {% for hour in range(24) %}
     <tr>
-        <td>{{hour|string}}</td>
+        <td>{{hour|string}}:00</td>
         {% for day in week_days  %}
         <td {{ "class=info" if hour>=6 and hour<=10}}>
-        {% if schedule[day][hour]['nath'] %}
-        <img src=/static/img/alarmred.jpeg height="20" width="20">
+        {% if schedule[day][hour]['nath']['state'] %}
+        <a href="#" data-toggle="tooltip" title={{schedule[day][hour]['nath']['time']}}>
+            <img src=/static/img/alarmred.jpeg height="20" width="20">
+        </a>
         {% endif %}
-        {% if schedule[day][hour]['nico'] %}
-        <img src=/static/img/alarmblue.jpeg height="20" width="20">
+        {% if schedule[day][hour]['nico']['state'] %}
+        <a href="#" data-toggle="tooltip" title={{schedule[day][hour]['nico']['time']}}>
+            <img src=/static/img/alarmblue.jpeg height="20" width="20">
+        </a>
         {% endif %}
         </td>
         {% endfor %}
