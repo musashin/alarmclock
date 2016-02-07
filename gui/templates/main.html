@@ -23,6 +23,8 @@
 </head>
 <body>
 
+    {% include 'alarmeditdlg.html' %}
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-2" ></div>
@@ -125,6 +127,9 @@
 
         //Toggle tooltips
         $('[data-toggle="tooltip"]').tooltip();
+
+        //Toggle pop-over
+        $('[data-toggle="popover"]').popover();
 
         //Turn-on slider
         $('#volume-slider').slider({
